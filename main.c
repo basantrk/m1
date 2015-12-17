@@ -15,9 +15,10 @@
 
 double pi_leibiniz (int n);
 double pi_bbp (int n);
-int adjust_rep_count (int n, double z, double x, double y);
+int adjust_rep_count (int count, double time, double tmin, double tmax);
 
-int main ( ) {
+int main ( )
+ {
     
     int i;
     int ileibniz, ibbp;
@@ -27,8 +28,8 @@ int main ( ) {
     
     i = 1;
     do
-         // Calculates Leibniz series until the approximation of Pi converges               within M_PI.
-         // Prints number of terms, approximation ,and relative error at each               at each stage.
+         // Calculates Leibniz series until the approximation of Pi converges within M_PI.
+         // Prints number of terms, approximation ,and relative error at each at each stage.
          // At the end, the number of itterations necessary is returned.
     {
         pi = pi_leibniz(i);
@@ -37,13 +38,13 @@ int main ( ) {
         i *= 2;
     } 
     while (abserr > tot);
-    ileibniz = i / 2; //Since itterations is doubled above,we have to divide by                         2//
+    ileibniz = i / 2; //Since itterations is doubled above,we have to divide by 2
     printf ("ileibniz = %8d/n", ileibniz);
     
     i = 1;
     do
-         // Calculates BBP series until the approximation of Pi converges                   within M_PI.
-         // Prints number of terms, approximation ,and relative error at each               at each stage.
+         // Calculates BBP series until the approximation of Pi converges within M_PI.
+         // Prints number of terms, approximation ,and relative error at each at each stage.
          // At the end, the number of itterations necessary is returned.
     {
         pi = pi_bbp (i);
@@ -53,19 +54,20 @@ int main ( ) {
     } 
     while (abserr > tot);
     ibbp = i / 2;
-    printf("ibbp = %8d/n", ibbp);
+    printf("ibbp = %8d\n \n \n", ibbp);
 
 double time;
 double time1;
 double time2;
 int t;
-double tmax = 2;
-double tmin = 1;
+double tmax = 2.;
+double tmin = 1.;
 int count = 1000;
 
     //Measures the time of the Bbp series calcualtions. Then number of counts is adjusted until the total time is between 1 and 2 seconds. 
     printf ("Bbp series timing:\n\n");
-    printf ("    Time/Iteration    Total Time    Iterations\n");
+    printf ("    Time/Iteration            Total Time            Iterations\n");
+  
     do 
     {
 
@@ -73,14 +75,14 @@ int count = 1000;
 
         for (t = 0; t < count; t++)
         {
-            pi_bbp (i);
+            pi_bbp (ibbp);
         }
 
         time = timer_stop ();
-        time1 = time / ((double) count);
+        time1 = time / count;
         printf (" %10.2f usec         %10.6f sec      %10d\n", time1 * 1.e6,
             time, count);
-        count = adjust_rep_count ((int) count, time, tmin, tmax);
+        count = adjust_rep_count (count, time, tmin, tmax);
 
     }
     while ((time > tmax) || (time < tmin));
@@ -90,7 +92,7 @@ int count = 1000;
 
 //Measures the time of the Leibniz series calcualtions. Then number of counts is      adjusted until the total time is between 1 and 2 seconds. 
     printf ("Leibniz series timing:\n\n");
-    printf ("    Time/Iteration    Total Time    Iterations\n");
+    printf ("    Time/Iteration           Total Time           Iterations\n");
     do
     {
 
@@ -98,14 +100,15 @@ int count = 1000;
 
         for (t = 0; t < count; t++)
         {
-            pi_leibniz (i);
+            pi_leibniz (ileibniz);
         }
 
         time = timer_stop ();
-        time2 = time / ((double) count);
-        printf (" %10.2f usec         %10.6f sec      %10d\n", time1 * 1.e6,
+
+        time2 = time / count;
+        printf (" %10.2f usec         %10.6f sec      %10d\n", time2 * 1.e6,
             time, count);
-        count = adjust_rep_count ((int) count, time, tmin, tmax);
+        count = adjust_rep_count (count, time, tmin, tmax);
 
     }
     while ((time > tmax) || (time < tmin));
